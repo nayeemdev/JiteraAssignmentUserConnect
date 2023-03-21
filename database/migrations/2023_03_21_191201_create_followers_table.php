@@ -11,14 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('followers', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->index(); // index for search by name
-            $table->string('username')->unique();
-            $table->string('email')->unique();
-            $table->string('password');
-            $table->string('phone')->nullable();
-            $table->string('website')->nullable();
+            $table->foreignId('user_id')->constrained();
+            $table->foreignId('follower_id')->constrained('users');
+            $table->unique(['user_id', 'follower_id']);
             $table->timestamps();
         });
     }
@@ -28,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('followers');
     }
 };
