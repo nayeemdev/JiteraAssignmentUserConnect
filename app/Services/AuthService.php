@@ -7,8 +7,6 @@ use App\Http\Requests\RegistrationRequest;
 use App\Models\User;
 use App\Traits\ApiResponse;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response;
 
 class AuthService
@@ -21,7 +19,10 @@ class AuthService
      */
     public function login(LoginRequest $request): JsonResponse
     {
-        $credentials = request(['email', 'password', 'user_type']);
+        $credentials = [
+            'email' => $request->email,
+            'password' => $request->password,
+        ];
 
         if (!$token = auth()->attempt($credentials)) {
             return $this->error('Credentials does not match!',Response::HTTP_UNAUTHORIZED);
