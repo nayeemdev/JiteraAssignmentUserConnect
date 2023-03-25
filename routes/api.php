@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\UserListController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -30,3 +31,5 @@ Route::group(['prefix' => 'auth'], static function () {
         Route::post('logout', [AuthController::class, 'logout']);
     });
 });
+
+Route::get('users', UserListController::class);
