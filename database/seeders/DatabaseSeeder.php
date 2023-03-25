@@ -16,12 +16,37 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // this will create 70 users because of follower factory
+        // create test user for login
         User::factory()
-            ->count(10)
             ->has(Address::factory())
             ->has(Company::factory())
-            ->has(Follower::factory()->count(3), 'followers')
+            ->create([
+                'name' => 'Md Nayeem Hossain',
+                'username' => 'nayeemdev',
+                'email' => 'nayeemdev@yahoo.com',
+                'password' => bcrypt('Secret123@'),
+                'phone' => '121312312',
+                'website' => 'https://nayeemdev.com',
+            ]);
+
+        // create users
+        User::factory()
+            ->count(100)
+            ->has(Address::factory())
+            ->has(Company::factory())
             ->create();
+
+        // create followers
+        $users = User::limit(50)->get();
+        $users->each(function ($user) use ($users) {
+            $users->each(function ($user2) use ($user) {
+                if ($user->id !== $user2->id) {
+                    Follower::create([
+                        'user_id' => $user->id,
+                        'follower_id' => $user2->id,
+                    ]);
+                }
+            });
+        });
     }
 }
