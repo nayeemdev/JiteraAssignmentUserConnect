@@ -1,8 +1,8 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\FollowerController;
 use App\Http\Controllers\Api\UserListController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -33,3 +33,10 @@ Route::group(['prefix' => 'auth'], static function () {
 });
 
 Route::get('users', UserListController::class);
+
+// Follower route
+Route::group(['prefix' => 'user', 'middleware' => ['jwt.auth']], static function () {
+    Route::post('{user}/follow', [FollowerController::class, 'follow']);
+    Route::post('{user}/unfollow', [FollowerController::class, 'unfollow']);
+    Route::get('followers', [FollowerController::class, 'followers']);
+});
