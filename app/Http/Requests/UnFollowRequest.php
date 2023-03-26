@@ -38,7 +38,7 @@ class UnFollowRequest extends BaseFormRequest
     public function all($keys = null): array
     {
         $data = parent::all($keys);
-        $data['user'] = $this->route('user');
+        $data['user'] = $data['user'] ?? $this->route('user');
         return $data;
     }
 

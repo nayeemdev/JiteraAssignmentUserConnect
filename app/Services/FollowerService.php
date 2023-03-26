@@ -18,9 +18,6 @@ class FollowerService
     public function follow(FollowRequest $request, $user): JsonResponse
     {
         $user = User::findOrFail($user);
-        if ($user->id === $request->user()->id) {
-            return $this->error('You cannot follow yourself', Response::HTTP_UNPROCESSABLE_ENTITY);
-        }
 
         $user->followers()->attach($request->user()->id);
 

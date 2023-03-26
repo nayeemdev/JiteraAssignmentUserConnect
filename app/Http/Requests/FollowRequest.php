@@ -25,6 +25,7 @@ class FollowRequest extends BaseFormRequest
             'user' => [
                 'required',
                 'exists:users,id',
+                Rule::notIn([auth()->id()]),
                 Rule::unique('followers', 'user_id')->where(function ($query) {
                     return $query->where('follower_id', auth()->id())
                         ->where('user_id', $this->user);
@@ -41,7 +42,7 @@ class FollowRequest extends BaseFormRequest
     public function all($keys = null): array
     {
         $data = parent::all($keys);
-        $data['user'] = $this->route('user');
+        $data['user'] = $data['user'] ?? $this->route('user');
         return $data;
     }
 
@@ -49,6 +50,7 @@ class FollowRequest extends BaseFormRequest
     {
         return [
             'user.exists' => 'User does not exist, please try with a valid user',
+            'user.not_in' => 'You cannot follow yourself',
             'user.unique' => 'You are already following this user',
         ];
     }
