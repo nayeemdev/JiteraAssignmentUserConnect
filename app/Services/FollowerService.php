@@ -37,7 +37,6 @@ class FollowerService
         $user = auth()->user();
 
         $followers = $user->followers()
-            ->select('users.*')
             ->when($request->has('name'), function ($query) use ($request) {
                 $query->where('users.name', 'LIKE', '%'.$request->input('name').'%');
             })

@@ -27,50 +27,46 @@ class FollowerServiceTest extends TestCase
 
     public function test_user_can_follow_a_user(): void
     {
-        $user = User::factory()->create();
         $follower = User::factory()->create();
 
-        $request = FollowRequest::create('/api/follow/' . $user->id, 'POST', ['user_id' => $user->id]);
+        $request = FollowRequest::create('/api/follow/' . $this->user->id, 'POST', ['user_id' => $this->user->id]);
         $request->setUserResolver(function () use ($follower) {
             return $follower;
         });
 
-        $followerService = new FollowerService();
-        $response = $followerService->follow($request, $user->id);
+        $response = $this->followerService->follow($request, $this->user->id);
 
         $this->assertDatabaseHas('followers', [
-            'user_id' => $user->id,
+            'user_id' => $this->user->id,
             'follower_id' => $follower->id,
         ]);
 
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
-        $this->assertEquals('You are now following ' . $user->name, $response->getData()->message);
+        $this->assertEquals('You are now following ' . $this->user->name, $response->getData()->message);
     }
 
     public function test_user_can_unfollow_a_user(): void
     {
-        $user = User::factory()->create();
         $follower = User::factory()->create();
-        $follower->followers()->attach($user->id);
+        $follower->followers()->attach($this->user->id);
 
-        $request = UnFollowRequest::create('/api/unfollow/' . $user->id, 'DELETE', ['user_id' => $user->id]);
+        $request = UnFollowRequest::create('/api/unfollow/' . $this->user->id, 'DELETE', ['user_id' => $this->user->id]);
         $request->setUserResolver(function () use ($follower) {
             return $follower;
         });
 
-        $followerService = new FollowerService();
-        $response = $followerService->unfollow($request, $user->id);
+        $response = $this->followerService->unfollow($request, $this->user->id);
 
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
-        $this->assertEquals('You are no longer following ' . $user->name, $response->getData()->message);
+        $this->assertEquals('You are no longer following ' . $this->user->name, $response->getData()->message);
     }
 
     public function test_user_can_get_followers(): void
     {
         $this->createUsersWithFollowers(2);
-        $response = $this->getJson('/api/user/followers');
+        $response = $this->followerService->followers(request());
 
-        $response->assertStatus(Response::HTTP_OK);
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
         $this->assertCount(1, $response->getData());
     }
 
