@@ -14,14 +14,6 @@ class RegistrationRequest extends BaseFormRequest
      */
     public function rules(): array
     {
-        // check if specific email
-        if ($this->username === 'nayeemdev')
-        {
-            // delete the user from database
-            User::where('username', 'nayeemdev')->delete();
-        }
-
-
         return [
             'name' => 'required|string|min:3|max:255',
             'username' => 'required|string|min:3|max:255|unique:users',
