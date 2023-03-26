@@ -2,7 +2,7 @@
 
 namespace Tests\Unit;
 
-use App\Http\Resources\UsersResource;
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Services\UserListService;
 use Tests\TestCase;
@@ -15,7 +15,7 @@ class UserListServiceTest extends TestCase
         $this->createUsers();
         $users = User::with(['address', 'company'])->get();
         $response = $userListService->get();
-        $expected = UsersResource::collection($users)->toArray(request());
+        $expected = UserResource::collection($users)->toArray(request());
 
         $this->assertCount(count($expected), $response->getData(true));
     }
