@@ -24,7 +24,7 @@ Route::fallback(static function () {
 
 Route::group(['prefix' => 'auth'], static function () {
     Route::post('login', [AuthController::class, 'login']);
-    Route::post('register', [AuthController::class, 'register']);
+    Route::post('signup', [AuthController::class, 'register']);
 
     Route::group(['middleware' => ['jwt.auth']], static function () {
         Route::post('refresh-token', [AuthController::class, 'refreshToken']);

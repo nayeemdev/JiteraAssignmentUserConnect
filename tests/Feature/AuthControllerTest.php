@@ -9,7 +9,7 @@ use Tests\TestCase;
 class AuthControllerTest extends TestCase
 {
     private const LOGIN_URL = '/api/auth/login';
-    private const REGISTER_URL = '/api/auth/register';
+    private const REGISTER_URL = '/api/auth/signup';
     private const REFRESH_URL = '/api/auth/refresh-token';
     private const LOGOUT_URL = '/api/auth/logout';
 

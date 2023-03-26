@@ -32,6 +32,9 @@ search for followers by name.
 - Run `php artisan jwt:secret` to generate the JWT secret key.
 - Run `php artisan serve` to start the development server. and in the browser go to `http://localhost:8000/` You can see the docs
 
+## Live Server
+The project is deployed on the live server. URL is [http://userconnect.rufostudio.com/](http://userconnect.rufostudio.com/)
+
 ## API Docs
 Here is the link of postman collection for this project:
 [https://documenter.getpostman.com/view/25794553/2s93RNzFaE](https://documenter.getpostman.com/view/25794553/2s93RNzFaE)
