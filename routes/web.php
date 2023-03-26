@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/', static function () {
+    // return readme.md as html
+    return \Illuminate\Mail\Markdown::parse(file_get_contents(base_path('README.md')));
 });
