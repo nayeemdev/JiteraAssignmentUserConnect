@@ -49,9 +49,4 @@ class FollowerService
         $followerCollection = UserResource::collection($followers->load(['address', 'company']))->toArray(request());
         return $this->success($followerCollection);
     }
-
-    public function checkpoint($user): void
-    {
-        // This is a checkpoint
-    }
 }
